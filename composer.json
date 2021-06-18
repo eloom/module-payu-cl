@@ -1,7 +1,7 @@
 {
   "name": "eloom/module-payu-cl",
   "description": "Procesa pagos con tarjeta de crédito, tokenización, MULTIcaja con PayU Chile para Magento 2 (Open Source)",
-  "homepage": "https://www.eloom.dev/payu",
+  "homepage": "https://eloom.tech/payu-latam",
   "keywords": [
     "magento",
     "magento2",
@@ -17,13 +17,13 @@
   ],
   "authors": [
     {
-      "name": "eloom.dev",
-      "email": "comunidade@eloom.dev"
+      "name": "eloom",
+      "email": "suporte@eloom.com.br"
     }
   ],
   "support": {
-    "email": "comunidade@eloom.dev",
-    "issues": "https://github.com/eloomdev/module-payu-cl/issues"
+    "email": "suporte@eloom.com.br",
+    "issues": "https://github.com/eloom/module-payu-cl/issues"
   },
   "require": {
     "php": "~7.2|~7.3|~7.4",
