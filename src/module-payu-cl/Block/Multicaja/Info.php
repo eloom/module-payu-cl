@@ -15,9 +15,6 @@ declare(strict_types=1);
 
 namespace Eloom\PayUCl\Block\Multicaja;
 
-use Magento\Framework\Phrase;
-use Magento\Payment\Block\ConfigurableInfo;
-
 class Info extends \Eloom\PayU\Block\Info {
 
 	public function getPaymentLink() {
