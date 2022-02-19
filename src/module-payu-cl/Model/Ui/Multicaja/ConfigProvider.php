@@ -6,7 +6,7 @@
 * @category     elOOm
 * @package      Modulo PayUCl
 * @copyright    Copyright (c) 2021 Ã©lOOm (https://eloom.tech)
-* @version      1.0.3
+* @version      1.0.4
 * @license      https://opensource.org/licenses/OSL-3.0
 * @license      https://opensource.org/licenses/AFL-3.0
 *
@@ -18,8 +18,8 @@ namespace Eloom\PayUCl\Model\Ui\Multicaja;
 use Eloom\PayUCl\Gateway\Config\Multicaja\Config as MulticajaConfig;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
-use Magento\Framework\Session\SessionManagerInterface;
 use Magento\Framework\View\Asset\Repository;
+use Magento\Store\Model\StoreManagerInterface;
 
 class ConfigProvider implements ConfigProviderInterface {
 
@@ -29,26 +29,35 @@ class ConfigProvider implements ConfigProviderInterface {
 
 	private $multicajaConfig;
 
-	private $session;
-
 	protected $escaper;
 
+	protected $storeManager;
+
 	public function __construct(Repository              $assetRepo,
-	                            SessionManagerInterface $session,
 	                            Escaper                 $escaper,
-	                            MulticajaConfig         $multicajaConfig) {
+	                            MulticajaConfig         $multicajaConfig,
+	                            StoreManagerInterface $storeManager) {
 		$this->assetRepo = $assetRepo;
-		$this->session = $session;
 		$this->escaper = $escaper;
 		$this->multicajaConfig = $multicajaConfig;
+		$this->storeManager = $storeManager;
 	}
 
 	public function getConfig() {
-		$storeId = $this->session->getStoreId();
-
+		$store = $this->storeManager->getStore();
 		$payment = [];
+		$storeId = $store->getStoreId();
 		$isActive = $this->multicajaConfig->isActive($storeId);
 		if ($isActive) {
+			$currency = $store->getCurrentCurrencyCode();
+			if ('CLP' != $currency) {
+				return ['payment' => [
+					self::CODE => [
+						'message' =>  sprintf("Currency %s not supported.", $currency)
+					]
+				]];
+			}
+
 			$payment = [
 				self::CODE => [
 					'isActive' => $isActive,
